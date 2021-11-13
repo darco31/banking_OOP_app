@@ -38,12 +38,12 @@ class Bank(User):
 
             print("Thank you for your business")
             self.balance -= wd
-            self.total_withdraws -= 1
+            self.total_withdraws += 1
             return f"Your balance is now {round(self.balance, 2)}"
 
 
 def options(user_two):
-    print("Thank you for crating your bank account")
+    print("Thank you for creating your bank account")
     print("Here area list of options, please choose ytour option")
 
     while True:
@@ -55,19 +55,20 @@ def options(user_two):
                 print(user_two_bank.show_info())
 
         elif option_choice == 2:
-            print(user_one_bank.witdraws())
+            print(user_one_bank.withdraws())
+
             if option_choice == 2 and user_two != None:
                 wd = input(
                     f"{user_two.name} would you like to withdraw? Yes or No: ")
-                if wd.lower == 'yes':
-                    print(user_two_bank.witdraws())
+                if wd.lower() == 'yes':
+                    print(user_two_bank.withdraws())
 
         elif option_choice == 3:
             print(user_one_bank.deposit())
             if option_choice == 3 and user_two != None:
                 dp = input(
                     f"{user_two.name} would you like to deposit funds? Yes or No: ")
-                if dp.lower == 'yes':
+                if dp.lower() == 'yes':
                     print(user_two_bank.deposit())
 
         elif option_choice == 4:
@@ -104,3 +105,26 @@ while True:
 
     user_one = User(name, age)
     user_two = None
+    new_user = input(
+        "Would you like to register a new person? Type 'No' to create your bank ")
+    if new_user.lower() == 'yes':
+        name = input("Enter the second persons name ")
+        age = int(input("Enter the second persons age "))
+        user_two = User(name, age)
+        print("Thnak you for registering two people please create your bank account ")
+
+        user_one_balance = bank_creation(user_one)
+        user_two_balance = bank_creation(user_two)
+
+        user_one_bank = Bank(user_one.name, user_one.age, user_one_balance)
+        user_two_bank = Bank(user_two.name, user_two.age, user_two_balance)
+
+        flag = options(user_two)
+        if flag == False:
+            break
+    else:
+        user_one_balance = bank_creation(user_one)
+        user_one_bank = Bank(user_one.name, user_one.age, user_one_balance)
+        flag = options(user_two)
+        if flag == False:
+            break
